@@ -1,0 +1,5 @@
+{
+  "$schema": "./build.schema.json",
+  "Solution": "SpacesManager.sln",
+  "Verbosity": "Normal"
+}

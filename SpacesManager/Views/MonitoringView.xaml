@@ -1,0 +1,177 @@
+﻿<en:FluentWindow
+        x:Class="Eneca.SpacesManager.Views.MonitoringView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewmodels="clr-namespace:Eneca.SpacesManager.ViewModels"
+        xmlns:res="clr-namespace:Eneca.SpacesManager.Resources"
+        mc:Ignorable="d"
+        WindowStyle="None"
+        Background="Transparent"
+        Height="650"
+        Width="900"
+        d:DataContext="{d:DesignInstance viewmodels:MonitoringViewModel}"
+        WindowStartupLocation="CenterScreen"
+        Topmost="True"
+        xmlns:en="http://eneca.ch/xaml">
+
+    <en:FluentWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/EnecaUI;component/Styles/Eneca.UI.xaml" />
+                <en:ThemesDictionary Theme="Light" />
+                <en:ControlsDictionary />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </en:FluentWindow.Resources>
+
+    <Border Background="{DynamicResource ScheduleBackgroundDefault}">
+
+        <Grid Margin="10 0 10 0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="20" />
+            </Grid.RowDefinitions>
+
+            <Grid
+                x:Name="HeaderGrid"
+                Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="60" />
+                </Grid.ColumnDefinitions>
+
+                <Grid
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    MouseLeftButtonDown="TopStackPanel_MouseLeftButtonDown" Height="32">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <en:Button
+                        Name="EnecaLogo"
+                        Width="30"
+                        Height="30"
+                        Margin="0 0 10 0"
+                        Padding="0"
+                        Appearance="EnecaPrimarySvg"
+                        Click="EnecaLogo_OnClick"
+                        DockPanel.Dock="Left">
+                        <en:DynamicSvg Foreground="{StaticResource DefaultGreen}" Style="{StaticResource EnecaLogoSvg}" />
+                    </en:Button>
+
+                    <TextBlock Grid.Column="1"
+                        Text="Spaces Manager"
+                        Foreground="{StaticResource DefaultGreen}"
+                        Style="{StaticResource Montserrat16B}"
+                        VerticalAlignment="Center"/>
+                </Grid>
+
+                <StackPanel
+                    Orientation="Horizontal"
+                    Grid.Column="1"
+                    HorizontalAlignment="Left" Margin="10,-10,0,0" Width="60">
+
+                    <en:Button
+                        Width="24"
+                        Height="24"
+                        Margin="3,0"
+                        Padding="4"
+                        VerticalContentAlignment="Bottom"
+                        Appearance="EnecaPrimarySvg"
+                        Click="WindowHide_BTN_Click"
+                        DockPanel.Dock="Right">
+                        <en:DynamicSvg Foreground="{StaticResource DefaultGreen}" Style="{StaticResource HideSvg}" />
+                    </en:Button>
+                    <en:Button
+                        Width="24"
+                        Height="24"
+                        Padding="5"
+                        Appearance="EnecaPrimarySvg"
+                        Click="WindowClose_BTN_Click">
+                        <en:DynamicSvg Foreground="{StaticResource DefaultGreen}" Style="{StaticResource CloseSvg}" />
+                    </en:Button>
+                </StackPanel>
+            </Grid>
+            <TextBlock
+                Text="{x:Static res:Resources.UI_RoomsLinks}"
+                VerticalAlignment="Center"
+                Grid.Row="1"
+                Style="{DynamicResource Montserrat14R}" />
+            <DataGrid Style="{DynamicResource EnecaDataGridStyle}"
+                      ItemsSource="{Binding RoomProperties}"
+                      ToolTipService.IsEnabled="True"
+                      SelectionUnit="FullRow"
+                      CanUserAddRows="False"
+                      Grid.Row="2"
+                      d:ItemsSource="{d:SampleData ItemCount=2}">
+                
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="{x:Static res:Resources.Number}"
+                                        CellStyle="{StaticResource EnecaDataGridCellCentralAlignmentStyle}"
+                                        Binding="{Binding NumberRoom}"
+                                        Width="100"
+                                        IsReadOnly="True"
+                                        CanUserSort="True"
+                                        CanUserReorder="False"
+                                        CanUserResize="False">
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="{x:Static res:Resources.Name}"
+                                        Binding="{Binding NameRoom}"
+                                        Width="100"
+                                        IsReadOnly="True"
+                                        CanUserSort="True"
+                                        CanUserReorder="False"
+                                        CanUserResize="False">
+                        <DataGridTextColumn.CellStyle>
+                            <Style TargetType="DataGridCell" BasedOn="{StaticResource EnecaDataGridCellCentralAlignmentStyle}">
+                                <Setter Property="ToolTip" Value="{Binding NameRoom}" />
+                                <Setter Property="HorizontalAlignment" Value="Center" />
+                                <Setter Property="ToolTipService.InitialShowDelay" Value="0" />
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="{x:Static res:Resources.Area}"
+                                        Binding="{Binding AreaRoom}"
+                                        CellStyle="{StaticResource EnecaDataGridCellCentralAlignmentStyle}"
+                                        Width="75"
+                                        IsReadOnly="True"
+                                        CanUserSort="True"
+                                        CanUserReorder="False"
+                                        CanUserResize="False">
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="{x:Static res:Resources.Changes}"
+                                        Binding="{Binding ChangesRoom}"
+                                        Width="*"
+                                        IsReadOnly="True"
+                                        CanUserSort="True"
+                                        CanUserReorder="False"
+                                        CanUserResize="False">
+                        <DataGridTextColumn.CellStyle>
+                            <Style TargetType="DataGridCell" BasedOn="{StaticResource EnecaDataGridCellCentralAlignmentStyle}">
+                                <Setter Property="ToolTip" Value="{Binding ChangesRoom}" />
+                                <Setter Property="HorizontalAlignment" Value="Center" />
+                                <Setter Property="ToolTipService.InitialShowDelay" Value="0" />
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="{x:Static res:Resources.LevelName}"
+                                        Binding="{Binding LevelRoom}"
+                                        CellStyle="{StaticResource EnecaDataGridCellCentralAlignmentStyle}"
+                                        Width="70"
+                                        IsReadOnly="True"
+                                        CanUserSort="True"
+                                        CanUserReorder="False"
+                                        CanUserResize="False">
+                    </DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </Border>
+</en:FluentWindow>
